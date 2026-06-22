@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
+import TabNav from "@/components/TabNav";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -69,7 +70,10 @@ export default function RootLayout({
           crossOrigin="anonymous"
         />
       </head>
-      <body className="min-h-full bg-gray-50 font-sans">{children}</body>
+      <body className="min-h-full bg-gray-50 font-sans">
+        <TabNav />
+        {children}
+      </body>
     </html>
   );
 }
