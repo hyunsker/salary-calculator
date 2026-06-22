@@ -57,12 +57,11 @@ export default function RootLayout({
   return (
     <html lang="ko" className={`${geistSans.variable} h-full antialiased`}>
       <head>
-        {/* AdSense 연동 시 아래 스크립트 활성화 */}
-        {/* <script
+        <script
           async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX"
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9649209365883181"
           crossOrigin="anonymous"
-        /> */}
+        />
       </head>
       <body className="min-h-full bg-gray-50 font-sans">{children}</body>
     </html>
