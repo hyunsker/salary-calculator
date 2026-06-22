@@ -1,5 +1,5 @@
-// 2026년 최저시급: 10,030원
-export const MINIMUM_WAGE_2026 = 10_030;
+// 2026년 최저시급: 10,320원
+export const MINIMUM_WAGE_2026 = 10_320;
 
 export interface MinimumWageResult {
   hourlyWage: number;       // 시급

@@ -16,17 +16,17 @@ export default function ResultCard({ result }: ResultCardProps) {
     {
       label: "국민연금",
       amount: result.nationalPension,
-      sublabel: "4.5%",
+      sublabel: "4.75%",
     },
     {
       label: "건강보험",
       amount: result.healthInsurance,
-      sublabel: "3.545%",
+      sublabel: "3.595%",
     },
     {
       label: "장기요양보험",
       amount: result.longTermCare,
-      sublabel: "건강보험료×12.95%",
+      sublabel: "건강보험료×13.14%",
     },
     {
       label: "고용보험",

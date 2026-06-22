@@ -29,7 +29,7 @@ export default function MinimumWageCalculator() {
           <span className="text-blue-500"> 2026</span>
         </h1>
         <p className="text-sm text-gray-500 mt-1">
-          2026년 최저시급 10,030원 기준 · 주휴수당 포함
+          2026년 최저시급 10,320원 기준 · 주휴수당 포함
         </p>
       </header>
 

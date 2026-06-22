@@ -76,15 +76,15 @@ export function calculateSalary(annualSalary: number, dependents: number): TaxRe
   const monthlyGross = Math.floor(annualSalary / 12);
 
   // 4대보험 계산 (월 기준)
-  // 국민연금: 4.5%, 상한 590만원
-  const pensionBase = Math.min(monthlyGross, 5_900_000);
-  const nationalPension = Math.floor(pensionBase * 0.045);
+  // 국민연금: 4.75%, 상한 637만원 (2026년)
+  const pensionBase = Math.min(monthlyGross, 6_370_000);
+  const nationalPension = Math.floor(pensionBase * 0.0475);
 
-  // 건강보험: 3.545% (2026년)
-  const healthInsurance = Math.floor(monthlyGross * 0.03545);
+  // 건강보험: 3.595% (2026년)
+  const healthInsurance = Math.floor(monthlyGross * 0.03595);
 
-  // 장기요양보험: 건강보험료 × 12.95% (2026년)
-  const longTermCare = Math.floor(healthInsurance * 0.1295);
+  // 장기요양보험: 건강보험료 × 13.14% (2026년)
+  const longTermCare = Math.floor(healthInsurance * 0.1314);
 
   // 고용보험: 0.9%
   const employmentInsurance = Math.floor(monthlyGross * 0.009);
