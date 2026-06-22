@@ -57,35 +57,78 @@ export default function WeeklyAllowanceCalculator() {
 
         {/* 주 근무시간 */}
         <div>
-          <label className="block text-sm text-gray-500 mb-1.5">
-            주 근무시간{" "}
-            <span className={`text-xs font-medium ${result.isEligible ? "text-blue-500" : "text-red-400"}`}>
-              {result.isEligible ? "(주휴수당 발생)" : "(주 15시간 미만 — 미발생)"}
+          <div className="flex items-center justify-between mb-1.5">
+            <label className="text-sm text-gray-500">주 근무시간</label>
+            <span className="text-xl font-bold text-gray-900 tabular-nums">
+              {weeklyWorkHours}시간
             </span>
-          </label>
-          <div className="flex items-center gap-3">
+          </div>
+
+          {/* 커스텀 슬라이더 트랙 */}
+          <div className="relative">
+            {/* 트랙 배경 */}
+            <div className="relative h-3 rounded-full overflow-hidden bg-gray-200">
+              {/* 15시간 미만 구간 (회색) */}
+              <div
+                className="absolute left-0 top-0 h-full bg-gray-300"
+                style={{ width: `${((15 - 1) / (52 - 1)) * 100}%` }}
+              />
+              {/* 현재값 채우기 */}
+              {weeklyWorkHours < 15 ? (
+                /* 15시간 미만: 빨간 채우기 */
+                <div
+                  className="absolute left-0 top-0 h-full bg-red-300 transition-all"
+                  style={{ width: `${((weeklyWorkHours - 1) / (52 - 1)) * 100}%` }}
+                />
+              ) : (
+                /* 15시간 이상: 파란 채우기 (15h 지점부터) */
+                <div
+                  className="absolute top-0 h-full bg-blue-500 transition-all"
+                  style={{
+                    left: `${((15 - 1) / (52 - 1)) * 100}%`,
+                    width: `${((weeklyWorkHours - 15) / (52 - 1)) * 100}%`,
+                  }}
+                />
+              )}
+            </div>
+            {/* 15시간 경계 마커 */}
+            <div
+              className="absolute top-0 w-0.5 h-3 bg-gray-500 rounded-full"
+              style={{ left: `${((15 - 1) / (52 - 1)) * 100}%` }}
+            />
+            {/* 실제 range input (트랙 위에 투명하게 올려서 드래그만 처리) */}
             <input
               type="range"
               min={1}
               max={52}
               value={weeklyWorkHours}
               onChange={(e) => setWeeklyWorkHours(Number(e.target.value))}
-              className="flex-1 h-2 bg-gray-200 rounded-full appearance-none cursor-pointer accent-blue-500"
+              className="absolute inset-0 w-full h-3 opacity-0 cursor-pointer"
             />
-            <span className="text-xl font-bold text-gray-900 w-16 text-right tabular-nums">
-              {weeklyWorkHours}시간
-            </span>
           </div>
-          {/* 15시간 기준선 표시 */}
-          <div className="relative mt-1">
-            <div
-              className="absolute text-xs text-red-400"
+
+          {/* 15시간 기준 레이블 */}
+          <div className="relative mt-1 h-5">
+            <span
+              className="absolute text-xs text-gray-400 -translate-x-1/2"
               style={{ left: `${((15 - 1) / (52 - 1)) * 100}%` }}
             >
-              ↑15h
-            </div>
+              15시간
+            </span>
+            <span className="absolute right-0 text-xs text-gray-400">52시간</span>
           </div>
-          <div className="grid grid-cols-4 gap-2 mt-4">
+
+          {/* 주휴수당 발생 여부 배지 */}
+          <div className={`mt-2 inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1 rounded-full ${
+            result.isEligible
+              ? "bg-blue-50 text-blue-600"
+              : "bg-gray-100 text-gray-500"
+          }`}>
+            <span className={`w-1.5 h-1.5 rounded-full ${result.isEligible ? "bg-blue-500" : "bg-gray-400"}`} />
+            {result.isEligible ? "주휴수당 발생 (주 15시간 이상)" : "주휴수당 미발생 (주 15시간 미만)"}
+          </div>
+
+          <div className="grid grid-cols-4 gap-2 mt-3">
             {[15, 20, 30, 40].map((h) => (
               <button
                 key={h}
