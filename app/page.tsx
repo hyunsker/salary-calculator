@@ -1,65 +1,75 @@
-import Image from "next/image";
+"use client";
+
+import { useState, useMemo } from "react";
+import SalaryInput from "@/components/SalaryInput";
+import ResultCard from "@/components/ResultCard";
+import AdPlaceholder from "@/components/AdPlaceholder";
+import { calculateSalary } from "@/lib/taxCalculator";
+
+const DEFAULT_SALARY = 40_000_000; // 4,000만원
 
 export default function Home() {
+  const [annualSalary, setAnnualSalary] = useState(DEFAULT_SALARY);
+  const [dependents, setDependents] = useState(0);
+
+  const result = useMemo(
+    () => calculateSalary(annualSalary, dependents),
+    [annualSalary, dependents]
+  );
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <main className="min-h-screen bg-gray-50">
+      <div className="max-w-lg mx-auto px-4 pb-12">
+        {/* 상단 광고 */}
+        <div className="pt-4 pb-3">
+          <AdPlaceholder position="top" />
+        </div>
+
+        {/* 헤더 */}
+        <header className="py-5">
+          <h1 className="text-2xl font-bold text-gray-900 leading-tight">
+            연봉 실수령액 계산기
+            <span className="text-blue-500"> 2026</span>
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+          <p className="text-sm text-gray-500 mt-1">
+            4대보험 + 소득세 공제 후 실제 받는 금액 계산
           </p>
+        </header>
+
+        {/* 입력 섹션 */}
+        <section className="mb-4">
+          <SalaryInput
+            annualSalary={annualSalary}
+            dependents={dependents}
+            onSalaryChange={setAnnualSalary}
+            onDependentsChange={setDependents}
+          />
+        </section>
+
+        {/* 결과 섹션 */}
+        {annualSalary > 0 ? (
+          <section>
+            <ResultCard result={result} />
+          </section>
+        ) : (
+          <div className="text-center py-16 text-gray-400">
+            <p className="text-4xl mb-3">💰</p>
+            <p className="text-sm">연봉을 입력하면 실수령액이 계산됩니다</p>
+          </div>
+        )}
+
+        {/* 하단 광고 */}
+        <div className="mt-8">
+          <AdPlaceholder position="bottom" />
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+
+        {/* 푸터 */}
+        <footer className="mt-8 text-center text-xs text-gray-400 space-y-1">
+          <p>2026년 기준 · 국민연금 4.5% · 건강보험 3.545%</p>
+          <p>장기요양 12.95% · 고용보험 0.9%</p>
+          <p className="text-gray-300">© 2026 연봉 실수령액 계산기</p>
+        </footer>
+      </div>
+    </main>
   );
 }
