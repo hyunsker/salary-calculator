@@ -1,12 +1,12 @@
 interface AdPlaceholderProps {
-  position: "top" | "bottom";
+  position?: "top" | "bottom";
 }
 
-export default function AdPlaceholder({ position }: AdPlaceholderProps) {
+export default function AdPlaceholder({ position = "top" }: AdPlaceholderProps) {
   return (
     <div
       className="w-full flex items-center justify-center bg-gray-100 border border-dashed border-gray-300 rounded-lg text-gray-400 text-xs"
-      style={{ minHeight: position === "top" ? "90px" : "90px" }}
+      style={{ minHeight: "90px" }}
       aria-label="광고 영역"
     >
       {/* AdSense 연동 시 아래 ins 태그 활성화 */}

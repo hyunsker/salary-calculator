@@ -27,6 +27,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     },
     {
+      url: "https://salary-calculator-bay.vercel.app/income-tax",
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.9,
+    },
+    {
+      url: "https://salary-calculator-bay.vercel.app/unemployment",
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.9,
+    },
+    {
       url: "https://salary-calculator-bay.vercel.app/privacy",
       lastModified: new Date(),
       changeFrequency: "yearly",
