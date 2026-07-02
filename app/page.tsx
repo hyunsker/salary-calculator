@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import Link from "next/link";
 import SalaryInput from "@/components/SalaryInput";
 import ResultCard from "@/components/ResultCard";
 import AdPlaceholder from "@/components/AdPlaceholder";
@@ -64,15 +63,11 @@ export default function Home() {
           <AdPlaceholder position="bottom" />
         </div>
 
-        {/* 푸터 */}
-        <footer className="mt-8 text-center text-xs text-gray-400 space-y-1">
+        {/* 요율 안내 */}
+        <div className="mt-6 text-center text-xs text-gray-400 space-y-1">
           <p>2026년 기준 · 국민연금 4.75% · 건강보험 3.595%</p>
           <p>장기요양 13.14% · 고용보험 0.9%</p>
-          <p className="text-gray-300">© 2026 연봉 실수령액 계산기</p>
-          <Link href="/privacy" className="text-gray-400 underline hover:text-gray-500">
-            개인정보처리방침
-          </Link>
-        </footer>
+        </div>
       </div>
     </main>
   );

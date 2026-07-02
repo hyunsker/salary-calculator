@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 import TabNav from "@/components/TabNav";
+import Footer from "@/components/Footer";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -8,7 +9,7 @@ const geistSans = Geist({
   subsets: ["latin"],
 });
 
-const siteUrl = "https://salary-calculator.vercel.app";
+const siteUrl = "https://salary-calculator-bay.vercel.app";
 
 export const metadata: Metadata = {
   title: "연봉 실수령액 계산기 2026 - 월급 세금 계산",
@@ -73,6 +74,7 @@ export default function RootLayout({
       <body className="min-h-full bg-gray-50 font-sans">
         <TabNav />
         {children}
+        <Footer />
       </body>
     </html>
   );

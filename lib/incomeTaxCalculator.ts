@@ -11,9 +11,10 @@ export interface IncomeTaxResult {
   expenses: number; // 필요경비 = 연수입 × 단순경비율
   taxableIncome: number; // 소득금액 = 연수입 - 필요경비
   basicDeduction: number; // 기본공제 (본인 150만원)
-  standardDeduction: number; // 표준공제 (100만원, 사업소득)
   deductedIncome: number; // 과세표준
-  incomeTax: number; // 종합소득세
+  calculatedTax: number; // 산출세액 (과세표준 × 세율)
+  standardTaxCredit: number; // 표준세액공제 (7만원)
+  incomeTax: number; // 결정세액 (산출세액 - 세액공제)
   localIncomeTax: number; // 지방소득세 (10%)
   totalTax: number; // 총 세금
   effectiveTaxRate: number; // 실효세율 (%)
@@ -72,14 +73,18 @@ export function calculateIncomeTax(input: IncomeTaxInput): IncomeTaxResult {
   const expenses = Math.floor(annualRevenue * expenseRate);
   const taxableIncome = Math.max(0, annualRevenue - expenses);
 
-  // 공제: 기본공제 150만원 (본인) + 표준공제 100만원 (사업소득자)
+  // 종합소득공제: 기본공제 150만원 (본인)
   const basicDeduction = 1_500_000;
-  const standardDeduction = 1_000_000;
-  const totalDeduction = basicDeduction + standardDeduction;
+  const deductedIncome = Math.max(0, taxableIncome - basicDeduction);
 
-  const deductedIncome = Math.max(0, taxableIncome - totalDeduction);
+  // 산출세액 = 과세표준 × 누진세율
+  const calculatedTax = calcIncomeTax(deductedIncome);
 
-  const incomeTax = calcIncomeTax(deductedIncome);
+  // 표준세액공제 7만원 (근로소득 없는 종합소득자, 특별세액공제 미신청 시)
+  const standardTaxCredit = calculatedTax > 0 ? 70_000 : 0;
+
+  // 결정세액 = 산출세액 - 세액공제 (음수 방지)
+  const incomeTax = Math.max(0, calculatedTax - standardTaxCredit);
   const localIncomeTax = Math.floor(incomeTax * 0.1);
   const totalTax = incomeTax + localIncomeTax;
 
@@ -92,8 +97,9 @@ export function calculateIncomeTax(input: IncomeTaxInput): IncomeTaxResult {
     expenses,
     taxableIncome,
     basicDeduction,
-    standardDeduction,
     deductedIncome,
+    calculatedTax,
+    standardTaxCredit,
     incomeTax,
     localIncomeTax,
     totalTax,

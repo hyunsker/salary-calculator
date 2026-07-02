@@ -132,10 +132,11 @@ export default function IncomeTaxCalculator() {
           />
           <Divider />
           <Row label="기본공제 (본인)" value={`-${fmt(result.basicDeduction)}원`} sub />
-          <Row label="표준공제" value={`-${fmt(result.standardDeduction)}원`} sub />
           <Row label="과세표준" value={`${fmt(result.deductedIncome)}원`} bold />
           <Divider />
-          <Row label="종합소득세" value={`${fmt(result.incomeTax)}원`} />
+          <Row label="산출세액" value={`${fmt(result.calculatedTax)}원`} />
+          <Row label="표준세액공제" value={`-${fmt(result.standardTaxCredit)}원`} sub />
+          <Row label="종합소득세 (결정세액)" value={`${fmt(result.incomeTax)}원`} />
           <Row label="지방소득세 (10%)" value={`${fmt(result.localIncomeTax)}원`} />
           <div className="bg-gray-50 rounded-lg px-3 py-2.5 flex justify-between items-center">
             <span className="text-sm font-semibold text-gray-800">총 납부 세금</span>
@@ -152,7 +153,7 @@ export default function IncomeTaxCalculator() {
       <div className="bg-gray-50 rounded-xl p-4 text-xs text-gray-500 space-y-1">
         <p className="font-medium text-gray-600">계산 기준 안내</p>
         <p>· 단순경비율은 직전연도 수입이 업종별 기준금액 미만인 경우 적용됩니다.</p>
-        <p>· 공제는 본인 기본공제(150만원)와 표준공제(100만원)만 반영되어 있습니다.</p>
+        <p>· 본인 기본공제(150만원)와 표준세액공제(7만원)만 반영되어 있습니다. 부양가족·연금보험료 등 추가 공제는 미반영입니다.</p>
         <p>· 국민연금, 건강보험료 등 추가 공제는 반영되지 않으며 실제 세액과 다를 수 있습니다.</p>
         <p>· 정확한 세금 신고는 세무사 상담을 권장합니다.</p>
       </div>
